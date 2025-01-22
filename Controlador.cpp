@@ -27,7 +27,9 @@ void executarProcessos() {
         Processo processoAtual = filaTanqueM.getHead();
         if (*processoAtual.estado == -1) {
             // Processo concluído, remover da fila
+            digitalWrite(PasM, true);
             filaTanqueM.dequeue();
+            digitalWrite(PasM, false);
             Serial.println("Processo concluído no Tanque M: " + processoAtual.nome);
         } else if (*processoAtual.estado != -1) {
             // Executar processo
@@ -41,7 +43,9 @@ void executarProcessos() {
         Processo processoAtual = filaTanqueF.getHead();
         if (*processoAtual.estado == -1) {
             // Processo concluído, remover da fila
+            digitalWrite(PasF, true);
             filaTanqueF.dequeue();
+            digitalWrite(PasF, false);
             Serial.println("Processo concluído no Tanque F: " + processoAtual.nome);
         } else if (*processoAtual.estado != -1) {
             // Executar processo

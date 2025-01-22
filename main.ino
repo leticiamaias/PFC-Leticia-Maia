@@ -215,10 +215,10 @@ void loop()
     bitwiseAnd(eventEnabledUncontrollable, eventUncontrollable, eventEnabled);
     bitwiseAnd(eventEnabledControllable, eventControllable, eventEnabled);
     //Serial.println(getBit(eventEnabledControllable, EVENT_LBRM));
-    //printEvent(eventEnabledUncontrollable);
+    printEvent(eventEnabledUncontrollable);
     //printEvent(eventEnabledControllable);
     //printEvent(eventControllable);
-    //printEvent(eventUncontrollable);
+    printEvent(eventUncontrollable);
     if (!areEqual(eventEnabledUncontrollable, emptyEvent))
     {
         //Serial.println("Chegou dentro if");
@@ -257,8 +257,8 @@ void loop()
         // Check if any enabled Controllable event was detected
         bitwiseAnd(eventEnabledControllable, eventEnabledControllable, eventEnabled);
 
-        //printEvent(eventEnabledControllable);
-        //printEvent(eventControllable);
+        printEvent(eventEnabledControllable);
+        printEvent(eventControllable);
         if (!areEqual(eventEnabledControllable, emptyEvent))
         {
             //Serial.println("Chegou dentro if cont");

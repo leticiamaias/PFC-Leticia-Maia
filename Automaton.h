@@ -20,17 +20,18 @@
 #define NIVEL_BAIXO_F 16
 #define NIVEL_MEDIO_INFERIOR_F 7
 #define NIVEL_MEDIO_SUPERIOR_F 9
-#define TEMP_FRIA 36
+#define TEMP_FRIA_F 36
+#define TEMP_FRIA_M 29
 #define TEMP_FERMENTACAO 45
 #define TEMP_PASTEURIZACAO 40
 extern float TempF, TempM, DistR, DistF, DistM;
-extern unsigned long agFTimer, agMTimer, aqFTimer, moeTimer, exaTimer, venTimer, misTimer, aqMTimer;  
+extern unsigned long agFTimer, agMTimer, aqFerFTimer, aqPasFTimer, moeTimer, exaTimer, venTimer, misTimer, aqFerMTimer, aqPasMTimer;  
 extern const int AgM, AgF, Moedor, Misturador, ExaVen, ExaVenGnd, ResMgnd, ResM, ResF, ResFgnd, FerM, FerF, PasM, PasF, BRM, BRMgnd, BRF, BRFgnd, BFR, BFRgnd, BFM, BFMgnd, BMR, BMRgnd, BMF, BMFgnd, StM, StF, SnREcho, SnMEcho, SnFEcho, SnMtrig, SnFtrig, SnRtrig;
-extern bool DBFM, DBFR, DBMF, DBMR, DBRF, DBRM, DagF, DagM, Dexa, Dven, Dmis, Dmoe, DresF, DresM, DAqF , DAqM, QFerF, QFerM, QPasF, QPasM, FF, FM, MM, MF, MR, HM, HF, HR, LM, LF, LR;
+extern bool DBFM, DBFR, DBMF, DBMR, DBRF, DBRM, DagF, DagM, Dexa, Dven, Dmis, Dmoe, DresF, DresM, DAFerF, DAPasF , DAFerM, DAPasM, QFerF, QFerM, QPasF, QPasM, FF, FM, MM, MF, MR, HM, HF, HR, LM, LF, LR;
 extern bool LBFM, LBFR, LBMF, LBMR, LBRF, LBRM, LagF, LagM, AferF, ApasF, AferM , ApasM, GdirExa, GesqVen, Lmis, Lmoe, LresF, LresM;
-extern int FlagAgF, FlagAgM, FlagAqF, FlagAqM, FlagBM, FlagBF, FlagBRM, FlagBRF;
+extern int FlagAgF, FlagAgM, FlagAqFerF, FlagAqFerM, FlagBM, FlagBF, FlagBRM, FlagBRF;
 extern bool AgFFer, AgMFer;
-extern bool agFEnd, agMEnd, aqFEnd, aqMEnd, moeEnd, exaEnd, misEnd, venEnd;
+extern bool agFEnd, agMEnd, aqFerFEnd, aqFerMEnd, aqPasFEnd, aqPasMEnd, moeEnd, exaEnd, misEnd, venEnd;
 extern int estadoLimpeza, estadoSecagem, estadoFermentacao, estadoPasteurizacao, estadoCozimento, estadoMistura, estadoMoagem;
 extern bool tanqueMOcupado, tanqueFOcupado;
 // Estrutura para representar processos

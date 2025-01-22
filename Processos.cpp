@@ -174,7 +174,7 @@ void executarFermentacao() { //TANQUE F
         }
         break;
     case 2: // LIGA AQUECEDOR 
-        if(aqFEnd && !DAqF) {
+        if(aqFerFEnd && !DAFerF) {
           AferF = true;
         }
         if(QFerF){
@@ -182,13 +182,12 @@ void executarFermentacao() { //TANQUE F
         }
         break;
     case 3: // MANTEM pelo tempo definido
-        if(aqFEnd && !DAqF) {
-          aqFTimer = millis();
-          FlagAqF = 0;
-          aqFEnd = false;
+        if(aqFerFEnd && !DAFerF) {
+          aqFerFTimer = millis();
+          FlagAqFerF = 0;
+          aqFerFEnd = false;
         }
-        if(!AferF){
-          aqFEnd = true;
+        if(aqFerFEnd && DAFerF){
           estadoFermentacao++;
         }
         break;
@@ -230,31 +229,37 @@ void executarFermentacao() { //TANQUE F
 void executarPasteurizacao() { // TANQUE M
   switch (estadoPasteurizacao) {
     case 0: //INICIO - enche tanque:
+      Serial.println("enche tanque");
       if (!DBRM){
         tanqueMOcupado = true;
         LBRM = true;
         FlagBRM = 0;
       } else {
         estadoPasteurizacao++;
+        //digitalWrite(PasM, false);
       }
       break;
     case 1: // LIGA AQUECEDOR 
-        if(aqMEnd && !DAqM) {
+        //Serial.println(aqMEnd);
+        Serial.println("liga aquecedor");
+        if(aqPasMEnd && !DAPasM) {
+          Serial.println("ligou aquecedor");
           ApasM = true;
         }
-        if(QPasM){
+        if(QPasM || QFerM){
           estadoPasteurizacao++;
         }
         break;
     case 2: // MANTEM pelo tempo definido
-        if(aqMEnd && !DAqM) {
-          aqMTimer = millis();
-          FlagAqM = 0;
-          aqMEnd = false;
+        Serial.println(aqPasMEnd);
+        if(aqPasMEnd && !DAPasM) {
+          Serial.println("começou o tempo");
+          aqPasMTimer = millis();
+          aqPasMEnd = false;
         }
-        if(!ApasM){
-          aqMEnd = true;
-          estadoFermentacao++;
+        if(aqPasMEnd && DAPasM){
+          //aqPasMEnd = true;
+          estadoPasteurizacao++;
         }
         break;
     case 3: // REDUZ agua até metade
@@ -267,6 +272,7 @@ void executarPasteurizacao() { // TANQUE M
         break;
     case 4:  // RESFRIA
         if(!DresM) {
+          Serial.println("Resfria");
           LresM = true;
         }
         if(DresM){ 
@@ -304,7 +310,7 @@ void executarCozimento() { // TANQUE F
       }
       break;
     case 1: // LIGA AQUECEDOR 
-        if(aqFEnd && !DAqF) {
+        if(aqFerFEnd && !DAFerF) {
           Serial.println("aquecedor ligou");
           AferF = true;
         }
@@ -313,18 +319,18 @@ void executarCozimento() { // TANQUE F
         }
         break;
     case 2: // MANTEM pelo tempo definido
-        if(aqFEnd && !DAqF) {
-          FlagAqF = 1;
-          aqFTimer = millis();
-          aqFEnd = false;
+        if(aqFerFEnd && !DAFerF) {
+          FlagAqFerF = 1;
+          aqFerFTimer = millis();
+          aqFerFEnd = false;
         }
-        Serial.println("aqFEnd:" + aqFEnd);
-        Serial.println(aqFEnd);
-        Serial.println("DAqF:"+ DAqF);
-        Serial.println(DAqF);
+        Serial.println("aqFEnd:");
+        Serial.println(aqFerFEnd);
+        Serial.println("DAqF:");
+        Serial.println(DAFerF);
 
         if(!AferF){
-          aqFEnd = true;
+          aqFerFEnd = true;
           Serial.println("passou pro esvaziar");
           estadoCozimento++;
         }

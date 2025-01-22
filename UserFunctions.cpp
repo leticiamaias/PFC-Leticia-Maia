@@ -5,14 +5,14 @@
 
 
 float TempF = 0, TempM = 0, DistR = 0, DistF = 28, DistM = 28;
-unsigned long agFTimer = 0, agMTimer = 0, aqFTimer = 0, moeTimer = 0, exaTimer = 0, venTimer = 0, misTimer = 0, aqMTimer = 0;  
+unsigned long agFTimer = 0, agMTimer = 0, aqFerFTimer = 0, aqPasFTimer = 0, moeTimer = 0, exaTimer = 0, venTimer = 0, misTimer = 0, aqFerMTimer = 0, aqPasMTimer = 0;  
 const int AgM = 36, AgF = 53, Moedor = 37, Misturador = 51, ExaVen = 33, ExaVenGnd = 32, ResMgnd= 30, ResM = 31, ResF = 49, ResFgnd= 48, FerM = 34, FerF = 50, PasM = 35, PasF = 52, BRM = 23, BRMgnd = 22, BRF = 25, BRFgnd = 24, BFR = 45, BFRgnd = 44, BFM = 47, BFMgnd = 46, BMR = 28, BMRgnd = 29, BMF = 27, BMFgnd = 26, StM = 12, StF = 13, SnREcho = 40, SnMEcho = 38, SnFEcho = 42, SnMtrig = 39, SnFtrig = 43, SnRtrig = 41;
-bool DBFM = false, DBFR = false, DBMF = false, DBMR = false, DBRF = false, DBRM = false, DagF = false, DagM = false, Dexa = false, Dven = false, Dmis = false, Dmoe = false, DresF =false, DresM = false, DAqF = false, DAqM = false, QFerF = false, QFerM = false, QPasF = false, QPasM = false, FF = true, FM = true, MM = false, MF = false, MR = false, HM = false, HF = false, HR = true, LM = true, LF = true, LR = false;
+bool DBFM = false, DBFR = false, DBMF = false, DBMR = false, DBRF = false, DBRM = false, DagF = false, DagM = false, Dexa = false, Dven = false, Dmis = false, Dmoe = false, DresF =false, DresM = false, DAFerF = false, DAPasF = false, DAFerM = false, DAPasM = false, QFerF = false, QFerM = false, QPasF = false, QPasM = false, FF = true, FM = true, MM = false, MF = false, MR = false, HM = false, HF = false, HR = true, LM = true, LF = true, LR = false;
 bool LBFM = false, LBFR = false, LBMF = false, LBMR = false, LBRF = false, LBRM = false, LagF = false, LagM = false, AferF = false, ApasF = false, AferM = false, ApasM = false, GdirExa = false, GesqVen = false, Lmis = false, Lmoe = false, LresF = false, LresM = false;
-int FlagAgF = 3, FlagAgM = 3, FlagAqF = 3, FlagAqM = 3, FlagBM = 0, FlagBF = 0, FlagBRM = 0, FlagBRF = 0;
+int FlagAgF = 3, FlagAgM = 3, FlagAqFerF = 3, FlagAqFerM = 3, FlagBM = 0, FlagBF = 0, FlagBRM = 0, FlagBRF = 0;
 int NivelAtualM = -1, StatusTempAtualM = -1,NivelAtualF = -1, StatusTempAtualF = -1, NivelAtualR = -1;
 bool AgFFer = false, AgMFer = false;
-bool agFEnd = true, agMEnd = true, aqFEnd = true, aqMEnd = true, moeEnd = true, exaEnd = true, venEnd = true, misEnd = true;
+bool agFEnd = true, agMEnd = true, aqFerFEnd = true, aqFerMEnd = true,aqPasFEnd = true, aqPasMEnd = true, moeEnd = true, exaEnd = true, venEnd = true, misEnd = true;
 HCSR04 SnM(SnMtrig, SnMEcho);
 HCSR04 SnR(SnRtrig, SnREcho);
 HCSR04 SnF(SnFtrig, SnFEcho);
@@ -241,11 +241,11 @@ bool EventUncontrollable_DAgM(){
 }
 
 bool EventUncontrollable_DAferF(){
-	DAqF = false;
+	DAFerF = false;
 	unsigned long delayMillis = 0; // Variável local para tempo de espera
 
         // Usando switch-case para definir diferentes tempos de espera
-        switch (FlagAqF)
+        switch (FlagAqFerF)
         {
             case 0:
                 delayMillis = 8000; // Padrão 8 segundos
@@ -255,40 +255,40 @@ bool EventUncontrollable_DAferF(){
                 break;
             default:
 				delayMillis =-1;
-                Serial.println("Valor inválido para a variável global.");
+                Serial.println("Invalido FerF.");
                 return false;
         }
   // Verificar se o tempo de espera foi atingido
-  if (millis() - aqFTimer >= delayMillis && delayMillis > 0) {
+  if (millis() - aqFerFTimer >= delayMillis && delayMillis > 0) {
 	Serial.println("Desligou aquecedor");
-    DAqF = true;
+    DAFerF = true;
 	AferF = false;
-	aqFEnd = true; 
-	FlagAqF = 2;// Define DagF como true após o tempo decorrido
+	aqFerFEnd = true; 
+	FlagAqFerF = 2;//
 	
   }
 
-  return DAqF;
+  return DAFerF;
 }
 
 bool EventUncontrollable_DApasF(){
-    DAqF = false;
+    DAPasF = false;
 
-    if (millis() - aqFTimer >= 8000 && ApasF) {
-        DAqF = true;
+    if (millis() - aqPasFTimer >= 8000 && ApasF && aqPasFTimer > 0) {
+        DAPasF = true;
 		ApasF = false;
-		aqFEnd = true;
+		aqPasFEnd = true;
     }
 
-    return DAqF;
+    return DAPasF;
 }
 
 bool EventUncontrollable_DAferM(){
-	DAqM = false;
+	DAFerM = false;
 	unsigned long delayMillis = 0; // Variável local para tempo de espera
 
         // Usando switch-case para definir diferentes tempos de espera
-        switch (FlagAqM)
+        switch (FlagAqFerM)
         {
             case 0:
                 delayMillis = 8000; // Padrão 8 segundos
@@ -298,29 +298,30 @@ bool EventUncontrollable_DAferM(){
                 break;
             default:
 				delayMillis =-1;
-                Serial.println("Valor inválido para a variável global.");
+                Serial.println("Inválido FerM.");
                 return false;
         }
   // Verificar se o tempo de espera foi atingido
-  if (millis() - aqMTimer >= delayMillis && delayMillis > 0) {
-    DAqM = true; // Define DagF como true após o tempo decorrido
-	FlagAqM = 2;
+  if (millis() - aqFerMTimer >= delayMillis && delayMillis > 0) {
+    DAFerM = true; // Define DAFerM como true após o tempo decorrido
+	FlagAqFerM = 2;
 	AferM = false;
-	aqMEnd = true;
+	aqFerMEnd = true;
   }
-  return DAqM;
+  return DAFerM;
 }	
 
 bool EventUncontrollable_DApasM(){
-	DAqM = false;
+	DAPasM = false;
 
-    if (millis() - aqMTimer >= 8000 && ApasM) {
-        DAqM = true;
+    if (millis() - aqPasMTimer >= 8000 && ApasM && aqPasMTimer > 0) {
+		Serial.println("entrando no if do tempo");
+        DAPasM = true;
 		ApasM = false;
-		aqMEnd = true;
+		aqPasMEnd = true;
     }
 
-    return DAqM;
+    return DAPasM;
 }
 
 bool EventUncontrollable_DbFM(){
@@ -597,7 +598,7 @@ bool EventUncontrollable_LR(){
 
 bool EventUncontrollable_FF(){
 	FF = false;
-	if (TempF <= TEMP_FRIA && StatusTempAtualF != 0){
+	if (TempF <= TEMP_FRIA_F && StatusTempAtualF != 0){
 		FF = true;
         Serial.println("Frio");
 		StatusTempAtualF = 0; // Atualiza o estado para Frio
@@ -607,7 +608,7 @@ bool EventUncontrollable_FF(){
 
 bool EventUncontrollable_QferF(){
 	QFerF = false;
-	if (TempF >= TEMP_FERMENTACAO && StatusTempAtualF != 2){
+	if (TempF > TEMP_FERMENTACAO && StatusTempAtualF != 2){
         QFerF = true;
         Serial.println("Temperatura de fermentação atingida.");
 		StatusTempAtualF = 2; // Atualiza o estado para TFermentação
@@ -617,7 +618,7 @@ bool EventUncontrollable_QferF(){
 
 bool EventUncontrollable_QpasF(){
 	QPasF = false;
-	if (TempF >= TEMP_PASTEURIZACAO && StatusTempAtualF != 1){
+	if (TempF >= TEMP_PASTEURIZACAO && TempF <= TEMP_FERMENTACAO && StatusTempAtualF != 1){
         QPasF = true;
         Serial.println("Temperatura de pasteurização atingida.");
 		StatusTempAtualF = 1; // Atualiza o estado para TPasteurizacao
@@ -627,7 +628,7 @@ bool EventUncontrollable_QpasF(){
 
 bool EventUncontrollable_FM(){
 	FM = false;
-	if (TempM <= TEMP_FRIA && StatusTempAtualM != 0){
+	if (TempM <= TEMP_FRIA_M && StatusTempAtualM != 0){
 		FM = true;
         Serial.println("Frio");
 		StatusTempAtualM = 0; // Atualiza o estado para Frio
@@ -637,7 +638,7 @@ bool EventUncontrollable_FM(){
 
 bool EventUncontrollable_QferM(){
 	QFerM = false;
-	if (TempM >= TEMP_FERMENTACAO && StatusTempAtualM != 2){
+	if (TempM > TEMP_FERMENTACAO && StatusTempAtualM != 2){
         QFerM = true;
         Serial.println("Temperatura de fermentação atingida.");
 		StatusTempAtualM = 2; // Atualiza o estado para TFermentação
@@ -647,7 +648,7 @@ bool EventUncontrollable_QferM(){
 
 bool EventUncontrollable_QpasM(){
 	QPasM = false;
-	if (TempM >= TEMP_PASTEURIZACAO && StatusTempAtualM != 1){
+	if (TempM >= TEMP_PASTEURIZACAO && TempM <= TEMP_FERMENTACAO && StatusTempAtualM != 1){
         QPasM = true;
         Serial.println("Temperatura de pasteurização atingida.");
 		StatusTempAtualM = 1; // Atualiza o estado para TPasteurizacao
@@ -694,7 +695,7 @@ void StateActionAutomaton2_AqFState0()
 void StateActionAutomaton2_AqFState1()
 {
 	digitalWrite(FerF, true);
-	digitalWrite(PasF, false);
+	//digitalWrite(PasF, false);
 	Serial.println("A2S1");
  	
 }
@@ -702,7 +703,7 @@ void StateActionAutomaton2_AqFState1()
 void StateActionAutomaton2_AqFState2()
 {
 	digitalWrite(FerF, true);
-	digitalWrite(PasF, false);
+	//digitalWrite(PasF, false);
 	Serial.println("A2S2");
  	
 }
@@ -718,7 +719,7 @@ void StateActionAutomaton3_AqMState0()
 void StateActionAutomaton3_AqMState1()
 {
 	digitalWrite(FerM, true);
-	digitalWrite(PasM, false);
+	//digitalWrite(PasM, false);
 	Serial.println("A3S1");
  	
 }
@@ -726,7 +727,7 @@ void StateActionAutomaton3_AqMState1()
 void StateActionAutomaton3_AqMState2()
 {
 	digitalWrite(FerM, true);
-	digitalWrite(PasM, false);
+	//digitalWrite(PasM, false);
 	Serial.println("A3S2");
  	
 }

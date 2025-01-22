@@ -61,6 +61,7 @@ void getEventControllable(Event &eventControllable){
 	}
 	if(EventControllable_ApasM()){
 		setBit(eventControllable,EVENT_APASM, true);
+		Serial.println(" mandou ligar aquecedor");
 	} else{
 		setBit(eventControllable,EVENT_APASM, false);
 	}
@@ -191,6 +192,7 @@ void getEventUncontrollable(Event &eventUncontrollable){
 	}
 	if(EventUncontrollable_LF()){
 		setBit(eventUncontrollable,EVENT_LF, true);
+		
 	}
 	if(EventUncontrollable_MM()){
 		setBit(eventUncontrollable,EVENT_MM, true);
@@ -215,21 +217,27 @@ void getEventUncontrollable(Event &eventUncontrollable){
 	}
 	if(EventUncontrollable_FF()){
 		setBit(eventUncontrollable,EVENT_FF, true);
+		Serial.println("evento FF");
 	}
 	if(EventUncontrollable_QferF()){
 		setBit(eventUncontrollable,EVENT_QFERF, true);
+		Serial.println("evento QferF");
 	}
 	if(EventUncontrollable_QpasF()){
 		setBit(eventUncontrollable,EVENT_QPASF, true);
+		Serial.println("evento QpasF");
 	}
 	if(EventUncontrollable_FM()){
 		setBit(eventUncontrollable,EVENT_FM, true);
+		Serial.println("evento FM");
 	}
 	if(EventUncontrollable_QferM()){
 		setBit(eventUncontrollable,EVENT_QFERM, true);
+		Serial.println("evento QferM");
 	}
 	if(EventUncontrollable_QpasM()){
 		setBit(eventUncontrollable,EVENT_QPASM, true);
+		Serial.println("evento QpasM");
 	}
 }
 
@@ -1055,7 +1063,8 @@ int MakeTransitionAutomaton28_SupResMAqMStMTMcAQeRES(int State, Event eventOccur
 	if (State == 1 && (getBit(eventOccurred,EVENT_LRESM))){ 
 		return 1;
 	}
-
+	Serial.println("Sup28 estado:");
+	Serial.println(State);
 	return(State);
 }
 
